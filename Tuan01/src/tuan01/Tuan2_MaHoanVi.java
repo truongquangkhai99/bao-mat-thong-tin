@@ -129,27 +129,34 @@ public class Tuan2_MaHoanVi extends javax.swing.JFrame {
 
     private void btnDecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecryptActionPerformed
         // TODO add your handling code here:
-        String k = this.txtKey.getText();
-        String ks[] = new String[6];
-        ks = k.split(",");
-        int key[] = new int[6];
-        for(int i = 0 ; i<6 ; i++)
-            key[i]=Integer.valueOf(ks[i])-1;
-        int keyt1[] = new int[6];
-        for(int i = 0; i < 6; i++)
-            keyt1[key[i]] = i;
-        String sa = this.txtCipherText.getText();
-        String kq = "";
-        int na = sa.length();
-        int d=0;
-        int c;
-        String s = "";
-        while(d < na){
-            c = d+6;
-            s = sa.substring(d,c);
-            for(int i = 0; i < 6; i++)
-                kq = kq+s.charAt(keyt1[i]);
-            d=d+6;
+        int k = Integer.valueOf(this.txtKey.getText());
+        String s = this.txtCipherText.getText();
+        int n = s.length();
+        int sd, sc;
+        sd=k;
+        sc = n/sd + 1;
+        char hr[][] = new char[sd][sc];
+        int c, d;
+        c = 0; d = 0;
+        int sodu = n%sd;
+        String kq="";
+        int soKyTu = sc;
+        int t = 0;
+        for(int i = 0; i < sd; i++){
+            if(i >= sodu)
+            soKyTu = sc-1;
+            for(int j = 0; j < soKyTu; j++){
+                hr[i][j] = s.charAt(t);
+                t++;
+            }
+        }
+        for(int i = 0; i < n; i++){
+            kq += hr[d][c];
+            d++;
+            if(d == k){
+                c++;
+                d = 0;
+            }
         }
         this.txtPlainText.setText(kq);
     }//GEN-LAST:event_btnDecryptActionPerformed
@@ -170,15 +177,23 @@ public class Tuan2_MaHoanVi extends javax.swing.JFrame {
         int c;
         String s="";
         int thieu = 6-na%6;
-        for(int i = 0; i < thieu; i++)
-            sa = sa + "" ;
-        while(d < na){
-            c=d+6;
-            s = sa.substring(d,c);
-            for(int i = 0; i <6; i++)
-                kq=kq+s.charAt(key[i]);
-            d=d+6;
-        }      
+        for(int i = 0; i < thieu; i++) sa = sa + "" ;
+        while(d < na)
+            d++;
+            if(d == k){
+                c++;
+                d = 0;
+            }
+        }
+        String kq="";
+        int soKyTu = sc;
+        for(int i = 0; i < sd; i++){
+            if(i > sodu)
+            soKyTu = sc-1;
+            for(int j = 0; j < soKyTu; j++){
+                kq = kq + hr[i][j];
+            }
+        }
         this.txtCipherText.setText(kq);
     }//GEN-LAST:event_btnEncryptActionPerformed
 

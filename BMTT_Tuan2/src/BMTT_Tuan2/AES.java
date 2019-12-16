@@ -21,10 +21,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  *
- * @author Tien Nguyen
- * Cách test AES: nhập username và pass => đăng ký (khi đky sẽ lưu file AES khóa lại)=> đăng nhập
- * => nhập plaintext mã hóa => giải mã
- * Ghi file là lấy cipherText ghi thành GhiAES
+ * @author camas
  */
 public class AES extends javax.swing.JFrame {
     SecretKey secretKey;
@@ -230,7 +227,7 @@ public class AES extends javax.swing.JFrame {
             txtPlainText.setText(cipherText);
             Cipher aesCipher = Cipher.getInstance("AES");
             aesCipher.init(Cipher.DECRYPT_MODE, secretKey, aesCipher.getParameters());
-          
+            //byte[]byteCipherText = cipherText.getBytes();
             byte[]byteDecryptedText = aesCipher.doFinal(byteCipherText);
             String strDecryptedText = new String(byteDecryptedText);
             System.out.println("Decrypted Text message is "+strDecryptedText);
@@ -243,24 +240,6 @@ public class AES extends javax.swing.JFrame {
 
     private void btnMoFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoFileActionPerformed
         // TODO add your handling code here:
-        try{
-            BufferedReader br = null;
-            String fileName = "E:\\GhiAES.txt"; 
-            br = new BufferedReader(new FileReader(fileName));
-            StringBuffer sb = new StringBuffer();    
-            JOptionPane.showMessageDialog(null, "Da mo File thanh cong!!");
-            char[] ca = new char[5];
-            while(br.ready()){
-                int len = br.read(ca);
-                sb.append(ca, 0, len);
-            }
-            br.close();
-            System.out.println("Du lieu la: "+" "+sb);
-            String chuoi = sb.toString();
-            txtPlainText.setText(chuoi);
-        }catch(IOException ex){
-            Logger.getLogger(ThreeDes.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_btnMoFileActionPerformed
 
     private void btnMaHoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHoaActionPerformed
@@ -270,10 +249,9 @@ public class AES extends javax.swing.JFrame {
             System.out.println("Sinh khoa: "+secretKey);
             Cipher aesCipher = Cipher.getInstance("AES");
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            
             String strData = txtPlainText.getText();
             byte[]byteDataToEncrypt = strData.getBytes();
-            byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
+            byte[]byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
             String strCipherText = new BASE64Encoder().encode(byteCipherText);
             System.out.println("Cipher text generated using AES is"+strCipherText);
             txtCipherText.setText(strCipherText);
@@ -307,7 +285,7 @@ public class AES extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công!.....");
             else
                  JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!.....");
-            txtDangKy.setText(chuoi.getBytes().toString());
+            txtPlainText.setText(chuoi.getBytes().toString());
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
             keyGen.init(128);
             secretKey = keyGen.generateKey();
@@ -320,9 +298,8 @@ public class AES extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             BufferedWriter bw = null;
-            String fileName = "E:\\GhiAES.txt";
-            String s = txtCipherText.getText();
-            //văn bản sau khi mã hóa
+            String fileName = "E:\\Des.txt";
+            String s = txtPlainText.getText();
             bw = new BufferedWriter(new FileWriter(fileName));
             StringBuffer sb = new StringBuffer();
             bw.write(s);

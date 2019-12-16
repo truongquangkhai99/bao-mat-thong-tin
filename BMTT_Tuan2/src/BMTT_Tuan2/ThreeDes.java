@@ -23,9 +23,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  *
- * @author Tien Nguyen
- * Cách test: khóa phải thật là dài, ví dụ: baomatthongtinhutechtiennguyen
- * nếu không là báo lỗi Wrong size key ở console
+ * @author camas
  */
 public class ThreeDes extends javax.swing.JFrame {
     private static final String UNICODE_FORMAT = "UTF8";
